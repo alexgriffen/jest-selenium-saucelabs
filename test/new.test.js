@@ -29,11 +29,10 @@ for (const browser of config.browsers) {
     let driver;
     const capabilities = {
         // build: require('../package.json').version,
-        build: 'saucelabs-poc',
+        build: 'saucelabs-poc_tests',
         project: 'jest-selenium-saucelabs',
         name: test.description,
         // browserName: 'chrome',
-        // 'browserstack.debug': true,
         ...browser,
     };
 
@@ -58,7 +57,7 @@ for (const browser of config.browsers) {
 
         afterAll(async () => {
             try {
-                // await driver.executeScript("sauce:job-result=" + (this.test.status));
+                // await driver.executeScript("sauce:job-result=" + (result));
                 await driver.quit(); // ~ 11 s !
                 await stop(); // ~ 3 s
             } catch (error) {
@@ -69,24 +68,36 @@ for (const browser of config.browsers) {
 
 
         describe(`desc ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`, () => {
-
             test(
                 `desc ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`,
                 async () => {
                     // may help with debugging
                     // const src = await driver.getPageSource();
                     // console.log(src);
+                    driver.executeScript(`sauce:job-name=${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`);
 
+                    const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
                     const btn = await getElementById(driver, 'checked_checkbox');
                     await btn.click();
 
                     const output = await getElementById(driver, 'comments');
                     const outputVal = await output.getAttribute('placeholder');
 
-                    expect(outputVal).toEqual('Thanks in advance, this is really helpful.');
+                    if (outputVal == resultString){
+                        var result = "passed";
+                    } else {
+                        var result = "failed";
+                    }
+                    console.log(result);
+
+                    expect(outputVal).toEqual(resultString);
+
+                    await driver.executeScript("sauce:job-result=" + (result));
+
                 },
                 // IMPORTANT! 5s timeout should be sufficient complete test
                 50000,
+                // driver.executeScript("sauce:job-result=" + (test.result),
             );
         });
     });
