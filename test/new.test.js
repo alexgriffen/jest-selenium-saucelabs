@@ -31,7 +31,6 @@ for (const browser of config.browsers) {
         // build: require('../package.json').version,
         build: 'saucelabs-poc_tests',
         project: 'jest-selenium-saucelabs',
-        name: test.description,
         // browserName: 'chrome',
         ...browser,
     };
