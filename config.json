@@ -2,7 +2,8 @@
   "browsers": [
     {
       "browserName": "safari",
-      "version": "11"
+      "version": "latest",
+      "platform": "macOS 10.14"
     },
     {
       "browserName": "firefox",

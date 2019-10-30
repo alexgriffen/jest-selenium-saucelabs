@@ -29,7 +29,7 @@ for (const browser of config.browsers) {
     let driver;
     const capabilities = {
         // build: require('../package.json').version,
-        build: 'saucelabs-poc_tests',
+        build: 'saucelabs-poc_tests_x2.85',
         project: 'jest-selenium-saucelabs',
         // browserName: 'chrome',
         ...browser,
@@ -37,7 +37,7 @@ for (const browser of config.browsers) {
 
     describe('webdriver', () => {
 
-        beforeAll(async () => {
+        beforeEach(async () => {
             try {
                 await start();
                 driver = new webdriver.Builder()
@@ -54,7 +54,7 @@ for (const browser of config.browsers) {
             // IMPORTANT! Selenium and Sauce Labs needs more time than regular Jest
         }, 100000);
 
-        afterAll(async () => {
+        afterEach(async () => {
             try {
                 // await driver.executeScript("sauce:job-result=" + (result));
                 await driver.quit(); // ~ 11 s !
@@ -73,6 +73,7 @@ for (const browser of config.browsers) {
                     // may help with debugging
                     // const src = await driver.getPageSource();
                     // console.log(src);
+
                     driver.executeScript(`sauce:job-name=${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`);
 
                     const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
@@ -82,10 +83,10 @@ for (const browser of config.browsers) {
                     const output = await getElementById(driver, 'comments');
                     const outputVal = await output.getAttribute('placeholder');
 
-                    if (outputVal == resultString){
-                        var result = "passed";
+                    if (outputVal == resultString) {
+                        var result = 'passed';
                     } else {
-                        var result = "failed";
+                        var result = 'failed';
                     }
                     console.log(result);
 
@@ -96,7 +97,39 @@ for (const browser of config.browsers) {
                 },
                 // IMPORTANT! 5s timeout should be sufficient complete test
                 50000,
-                // driver.executeScript("sauce:job-result=" + (test.result),
+            );
+        });
+        describe(`desc Second Test with ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`, () => {
+            test(
+                `desc Second Test with ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`,
+                async () => {
+                    // may help with debugging
+                    // const src = await driver.getPageSource();
+                    // console.log(src);
+
+                    driver.executeScript(`sauce:job-name=Second Test with ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`);
+
+                    const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
+                    const btn = await getElementById(driver, 'checked_checkbox');
+                    await btn.click();
+
+                    const output = await getElementById(driver, 'comments');
+                    const outputVal = await output.getAttribute('placeholder');
+
+                    if (outputVal == resultString) {
+                        var result = 'passed';
+                    } else {
+                        var result = 'failed';
+                    }
+                    console.log(result);
+
+                    expect(outputVal).toEqual(resultString);
+
+                    await driver.executeScript("sauce:job-result=" + (result));
+
+                },
+                // IMPORTANT! 5s timeout should be sufficient complete test
+                50000,
             );
         });
     });
