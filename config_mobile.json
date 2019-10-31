@@ -1,0 +1,24 @@
+{
+  "browsers": [
+    {
+      "deviceName": "Google.*",
+      "platformVersion": "9",
+      "platformName": "Android"
+    },
+    {
+      "deviceName": "Google.*",
+      "platformVersion": "10",
+      "platformName": "Android"
+    },
+    {
+      "deviceName": "iPhone.*",
+      "platformVersion": "12",
+      "platformName": "iOS"
+    },
+    {
+      "deviceName": "iPad.*",
+      "platformVersion": "12",
+      "platformName": "iOS"
+    }
+  ]
+}
