@@ -98,7 +98,7 @@ for (const browser of config.browsers) {
 
                     expect(outputVal).toEqual(resultString);
 
-                    // await driver.executeScript("sauce:job-result=" + (result));
+                    await driver.executeScript("sauce:job-result=" + (result));
 
                 },
                 // IMPORTANT! 30s timeout should be sufficient complete this test
@@ -113,7 +113,7 @@ for (const browser of config.browsers) {
                     // const src = await driver.getPageSource();
                     // console.log(src);
 
-                    // const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
+                    const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
                     const btn = await getElementById(driver, 'checked_checkbox');
                     await btn.click();
 
@@ -129,7 +129,7 @@ for (const browser of config.browsers) {
 
                     expect(outputVal).toEqual(resultString);
 
-                    // await driver.executeScript("sauce:job-result=" + (result));
+                    await driver.executeScript("sauce:job-result=" + (result));
                 },
                 // IMPORTANT! 5s timeout should be sufficient complete test
                 90000,
