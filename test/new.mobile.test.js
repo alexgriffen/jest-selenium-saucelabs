@@ -37,10 +37,11 @@ for (const browser of config.browsers) {
         // deviceName: "iPhone XR",
         // platformVersion: "12",
         // platformName: "iOS",
-        // privateDeviceOnly: true
+        // privateDeviceOnly: true,
         browserName: browser.deviceName,
+        deviceName: browser.deviceName,
         platformName: browser.platformName,
-        name: 'Test with ' + browser.deviceName + 'and ' + browser.platformName
+        name: 'Test with ' + browser.deviceName + ' and ' + browser.platformName
     };
 
     describe('webdriver', () => {
@@ -57,7 +58,7 @@ for (const browser of config.browsers) {
                 console.error('connection error', error);
             }
             // IMPORTANT! Selenium and Sauce Labs needs more time than regular Jest
-        }, 30000);
+        }, 90000);
 
         afterEach(async () => {
             try {
@@ -101,39 +102,38 @@ for (const browser of config.browsers) {
 
                 },
                 // IMPORTANT! 30s timeout should be sufficient complete this test
-                30000,
+                90000,
             );
         });
-        // describe(`desc Second Test with ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`, () => {
-        //     test(
-        //         `desc Second Test with ${capabilities.browserName} on version ${capabilities.version} on ${capabilities.platform}`,
-        //         async () => {
-        //             // may help with debugging
-        //             // const src = await driver.getPageSource();
-        //             // console.log(src);
-        //
-        //             const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
-        //             const btn = await getElementById(driver, 'checked_checkbox');
-        //             await btn.click();
-        //
-        //             const output = await getElementById(driver, 'comments');
-        //             const outputVal = await output.getAttribute('placeholder');
-        //
-        //             if (outputVal == resultString) {
-        //                 var result = 'passed';
-        //             } else {
-        //                 var result = 'failed';
-        //             }
-        //             console.log(result);
-        //
-        //             expect(outputVal).toEqual(resultString);
-        //
-        //             await driver.executeScript("sauce:job-result=" + (result));
-        //
-        //         },
-        //         // IMPORTANT! 5s timeout should be sufficient complete test
-        //         50000,
-        //     );
-        // });
+        describe(`desc Next test with ${capabilities.deviceName} on version ${capabilities.platformVersion} on ${capabilities.platformName}`, () => {
+            test(
+                `desc Next test with ${capabilities.deviceName} on version ${capabilities.platformVersion} on ${capabilities.platformName}`,
+                async () => {
+                    // may help with debugging
+                    // const src = await driver.getPageSource();
+                    // console.log(src);
+
+                    // const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
+                    const btn = await getElementById(driver, 'checked_checkbox');
+                    await btn.click();
+
+                    const output = await getElementById(driver, 'comments');
+                    const outputVal = await output.getAttribute('placeholder');
+
+                    if (outputVal == resultString) {
+                        var result = 'passed';
+                    } else {
+                        var result = 'failed';
+                    }
+                    console.log(result);
+
+                    expect(outputVal).toEqual(resultString);
+
+                    // await driver.executeScript("sauce:job-result=" + (result));
+                },
+                // IMPORTANT! 5s timeout should be sufficient complete test
+                90000,
+            );
+        });
     });
 }
