@@ -58,7 +58,7 @@ for (const browser of config.browsers) {
                 console.error('connection error', error);
             }
             // IMPORTANT! Selenium and Sauce Labs needs more time than regular Jest
-        }, 90000);
+        }, 180000);
 
         afterEach(async () => {
             try {
@@ -101,7 +101,7 @@ for (const browser of config.browsers) {
                     await driver.executeScript("sauce:job-result=" + (result));
 
                 },
-                // IMPORTANT! 30s timeout should be sufficient complete this test
+                // IMPORTANT! 90s timeout should be sufficient complete this test
                 90000,
             );
         });
@@ -131,7 +131,7 @@ for (const browser of config.browsers) {
 
                     await driver.executeScript("sauce:job-result=" + (result));
                 },
-                // IMPORTANT! 5s timeout should be sufficient complete test
+                // IMPORTANT! 90s timeout should be sufficient complete test
                 90000,
             );
         });
