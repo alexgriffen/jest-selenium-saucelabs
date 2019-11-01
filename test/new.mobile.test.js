@@ -29,8 +29,7 @@ for (const browser of config.browsers) {
     let driver;
     const capabilities = {
         // build: require('../package.json').version,
-        build: 'saucelabs-mobileTests.0.0.1',
-        // project: 'jest-selenium-saucelabs',
+        // build: 'saucelabs-mobileTests.0.0.1',
         // browserName: 'chrome',
         // ...browser,
         testobject_api_key: process.env.TESTOBJECT_WEB_KEY,
@@ -54,23 +53,12 @@ for (const browser of config.browsers) {
                     .withCapabilities(capabilities)
                     .build();
 
+                await driver.get('https://saucelabs.com/test/guinea-pig');
             } catch (error) {
                 console.error('connection error', error);
             }
             // IMPORTANT! Selenium and Sauce Labs needs more time than regular Jest
         }, 180000);
-
-        afterEach(async () => {
-            try {
-                // await driver.executeScript("sauce:job-result=" + (result));
-                await driver.quit(); // ~ 11 s !
-                await stop(); // ~ 3 s
-            } catch (error) {
-                console.error('disconnection error', error);
-            }
-            // IMPORTANT! Selenium and Sauce Labs needs a lot of time!
-        }, 600000);
-
 
         describe(`desc ${capabilities.deviceName} on version ${capabilities.platformVersion} on ${capabilities.platformName}`, () => {
             test(
@@ -81,7 +69,7 @@ for (const browser of config.browsers) {
                     // console.log(src);
 
                     // driver.executeScript(`sauce:job-name=${capabilities.deviceName} on version ${capabilities.platformVersion} on ${capabilities.platformName}`);
-                    await driver.get('https://saucelabs.com/test/guinea-pig');
+                    // await driver.get('https://saucelabs.com/test/guinea-pig');
                     const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
                     const btn = await getElementById(driver, 'checked_checkbox');
                     await btn.click();
@@ -104,8 +92,6 @@ for (const browser of config.browsers) {
                 // IMPORTANT! 90s timeout should be sufficient complete this test
                 90000,
             );
-        });
-        describe(`desc Next test with ${capabilities.deviceName} on version ${capabilities.platformVersion} on ${capabilities.platformName}`, () => {
             test(
                 `desc Next test with ${capabilities.deviceName} on version ${capabilities.platformVersion} on ${capabilities.platformName}`,
                 async () => {
@@ -113,6 +99,7 @@ for (const browser of config.browsers) {
                     // const src = await driver.getPageSource();
                     // console.log(src);
 
+                    // await driver.get('https://saucelabs.com/test/guinea-pig');
                     const resultString = 'Thanks in advance, this is really helpful.'; // set this way since we're doing two evaluations below on this same result
                     const btn = await getElementById(driver, 'checked_checkbox');
                     await btn.click();
@@ -135,5 +122,17 @@ for (const browser of config.browsers) {
                 90000,
             );
         });
+
+        afterEach(async () => {
+            try {
+                // await driver.executeScript("sauce:job-result=" + (result));
+                await driver.quit(); // ~ 11 s !
+                await stop(); // ~ 3 s
+            } catch (error) {
+                console.error('disconnection error', error);
+            }
+            // IMPORTANT! Selenium and Sauce Labs needs a lot of time!
+        }, 600000);
+
     });
 }
